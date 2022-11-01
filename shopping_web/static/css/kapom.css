@@ -1,0 +1,17 @@
+.kapom {
+    color: red;
+}
+
+.aquaman {
+    color: purple;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+
+.navbar {
+    position:fixed;
+    width:100%;
+    z-index: 1000000;
+    top:0;
+}

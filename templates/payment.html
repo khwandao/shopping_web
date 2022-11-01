@@ -1,0 +1,114 @@
+
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-9" id="cart-container py-5">
+           
+            <div class="card-body py-5 px-md-5">
+        
+                <div class="row d-flex justify-content-center">
+                    
+                    <div class="col-lg-8">
+                        
+                                    
+                        <form action="{% url 'payment' %}" method="POST">
+                            {% csrf_token %}
+                            
+                            <h4 class="fw-bold mb-2">ข้อมูลการจัดส่ง</h4>
+                        
+                            <p class="text-danger">{{error_message}}</p>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" id="firstName" class="form-control" placeholder="ชื่อ" name="firstName" value="{{firstName}}" />                                    
+                                </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" id="lastName" class="form-control" placeholder="นามสกุล" name="lastName" value="{{lastName}}" />
+                                </div>
+                                </div>
+                            </div>
+                
+                         
+                            <div class="form-outline mb-4">
+                                <input type="text" id="address" class="form-control" placeholder="ทีอยู่" name="address" value="{{address}}" />                             
+                            </div>
+                
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="text" id="Province" class="form-control" placeholder="จังหวัด" name="province" value="{{province}}" />
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="text" id="district" class="form-control" placeholder="อำเภอ" name="district" value="{{district}}" />
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="text" id="subDistrict" class="form-control" placeholder="ตำบล" name="subDistrict" value="{{subDistrict}}" />
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="number" id="postCode" class="form-control" placeholder="ไปรษณีย์" name="postCode" value="{{postCode}}" />                                        
+                                    </div>
+                                </div>
+                                                                                        
+                            </div>
+
+                            <h4 class="fw-bold mb-2">ข้อมูลติดต่อ</h4>
+                            <div class="form-outline mb-4">
+                                <input type="text" id="telephone" class="form-control" placeholder="เบอร์ติดต่อ" name="telephone" value="{{telephone}}" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="email" id="email" class="form-control" placeholder="อีเมล" name="email" value="{{email}}" />
+                            </div>                            
+
+                            <div class="row form-outline mb-4">
+                                <button class="btn btn-success btn-block mb-4" type="submit">ตรวจสอบข้อมูลและชำระเงิน</button>
+                            </div>
+
+                            <!-- <div class="row pt-2">
+                                <button class="btn btn-success btn-block mb-4" type="submit">ตรวจสอบและชำระเงิน</button>
+                            </div> -->
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-3 py-5">
+            <!-- <h5 class="d-flex justify-content-between align-items-center">สรุปคำสั่งซื้อ</h5> -->
+            <br><br><br>
+            <h5 class="card-title">สรุปคำสั่งซื้อ</h5>
+            <div class="card-body">
+                <div class="d-flex justify-content-between information" id="total"><span>ยอดรวม</span><span>{{total}} THB</span></div>
+                <div class="d-flex justify-content-between information" id="shipping_cost"><span>ค่าจัดส่ง</span><span>{{shipping_cost}} THB</span></div>
+                <div class="d-flex justify-content-between information" id="grand_total"><span><b>ยอดรวมทั้งหมด</b></span><span><b>{{grand_total}} THB</b></span></div>                                            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,68 @@
+
+<!-- <footer class="bg-secondary text-white pt-5 pb-4 footer-1"> -->
+<footer1 class="bg-secondary text-white footer-1">
+    <div class="bg-secondary  text-md-left">
+        <div class="row text-md-left">
+            <!-- <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Company</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        
+            </div> -->
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Product</h5>
+
+                {% for item in categories %}
+                <p>
+                    <a href="#" class="text-white" style="text-decoration: none;">{{item.category_name}}</a>
+                </p>
+                {% endfor %}
+                
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Useful links</h5>
+                <p>
+                    Your Account
+                </p>
+                <p>
+                    Contact
+                </p>
+                <p>
+                    Help
+                </p>
+
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Follow us</h5>
+                <p>
+                    <i class="bi bi-instagram"></i> &nbsp;
+                    <i class="bi bi-facebook"></i> &nbsp;
+                    <i class="bi bi-twitter"></i> &nbsp;
+                    <i class="bi bi-youtube"></i> &nbsp;
+                </p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h5>
+                <p>
+                    <i class="fas fa-home mr-3"></i> Bangkok, Thailand, Ramkhamhaeng
+                </p>
+                <p>
+                    <i class="fas fa-envelope mr-3"></i> gooddays@gmail.com
+                </p>
+                <p>
+                    <i class="fas fa-phone mr-3"></i> +01 234 567 89
+                </p>
+                <!-- <p>
+                    <i class="fas fa-print mr-3"></i> +02 222 223 33
+                </p> -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer1>

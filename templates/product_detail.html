@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Product section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src={{product.image.url}} alt="..." /></div>
+            <div class="col-md-6">
+                <h3 class="display-5 fw-bolder">{{product.product_name}}</h3>
+                <div class="fs-5 mb-5 pt-2">                    
+                    <!-- <span class="text-decoration-line-through">$45.00</span> -->
+                    <span>{{product.price}} THB</span>
+                </div>
+                {% if product.description == null %}
+                <p class="lead">ไม่พบรายละเอียดสินค้า</p>
+                {% else %}
+                <p class="lead">{{product.description}}</p>
+                {% endif %}
+                <div class="d-flex">
+                    <!-- <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" /> -->
+                    <button class="btn btn-warning flex-shrink-0" type="button" onclick="add_to_cart('{{product.id}}')">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    function add_to_cart(pid) {        
+        
+        console.log(pid);
+
+        $.ajax({
+            type: 'post',
+            url: '/add-to-cart',
+            data: {"product_id": pid},            
+            success: function (data) {
+                if (data.is_error) {
+                    alert(data.error_message);
+                } else {
+                    if(data.number_of_items_in_cart > 0) {                                                
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-danger text-white ms-1 rounded-pill");                        
+                        document.getElementById("add_to_cart_item_count").innerHTML = data.number_of_items_in_cart;
+                    } else {                        
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-dark text-white ms-1 rounded-pill");
+                        document.getElementById("add_to_cart_item_count").innerHTML = "0";
+                    }
+                    
+                }                
+            }                                       
+        })
+    }     
+           
+</script>      
+{% endblock %}
+
+{% endblock %}
+

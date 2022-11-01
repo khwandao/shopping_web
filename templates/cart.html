@@ -1,0 +1,323 @@
+{% extends 'layout.html' %}
+{% load static %} 
+
+
+{% block content %}
+
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-8" id="cart-container">
+
+            {% for cart in carts %}
+            <div class="col-lg-8">
+                <div class="pt-5">
+                
+                    <div class="row mb-4 d-flex justify-content-between align-items-center" id="{{cart.id}}">
+
+                        <div class="col-md-2 col-lg-2 col-xl-2">                        
+                            <img src={{cart.product.image.url}} width="200" height="200" class="img-fluid rounded-3" alt="Cotton T-shirt">
+                        </div>
+
+                        <div class="col-md-3 col-lg-3 col-xl-">
+                            <!-- <h6 class="text-muted">{{cart.product.category.category_name}}</h6> -->
+                            <h6 class="text-black mb-0">{{cart.product.product_name}}</h6>
+                        </div>
+
+                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">                        
+                            <!-- <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"> -->
+                            <button class="btn btn-link px-2" onclick="substractQTY(this.parentNode.querySelector('input[type=number]'))">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                    
+                            <input min="0" name="quantity" value="{{cart.quantity}}" type="number" class="form-control form-control-sm" style="width: 50px;" />
+
+                            <!-- <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"> -->
+                            <button class="btn btn-link px-2" onclick="addQTY(this.parentNode.querySelector('input[type=number]'))">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <p class="mb-0">{{cart.product.price}} THB</p>
+                        </div>
+
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                            <button class="btn mt-auto text-danger" onclick="delete_item('{{cart.id}}')" ><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-4 pt-5">
+
+            <!-- <h5 class="d-flex justify-content-between align-items-center">สรุปคำสั่งซื้อ</h5> -->
+            
+            <h5 class="card-title">สรุปคำสั่งซื้อ</h5>
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between information" id="total"><span>ยอดรวม</span><span>{{total}} THB</span></div>
+                <div class="d-flex justify-content-between information" id="shipping_cost"><span>ค่าจัดส่ง</span><span>{{shipping_cost}} THB</span></div>
+                <div class="d-flex justify-content-between information" id="grand_total"><span><b>ยอดรวมทั้งหมด</b></span><span><b>{{grand_total}} THB</b></span></div>
+
+                
+                <div class="row pt-2">
+                    <a class="btn btn-success btn-block mb-4" style="text-decoration: none; color:rgb(232, 232, 240);" href="{% url 'payment' %}">ชำระเงิน</a>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    {% comment %}
+        {% include 'footer1.html' %} 
+    {% endcomment %}
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    function addQTY(e) {
+        //console.log(e.parentNode.parentNode.id);
+        item_id = e.parentNode.parentNode.id;
+        e.value = parseInt(e.value) + 1;
+
+        if(e.value>5) {
+            e.value = 5;
+        }
+
+        refresh_cart(item_id, 'add', 1);
+    }
+
+    function substractQTY(e) {
+        item_id = e.parentNode.parentNode.id;
+        e.value = parseInt(e.value) - 1;
+
+        if(e.value <= 0) {
+            e.value = 0;
+            delete_item(item_id);
+        } else {
+            refresh_cart(item_id, 'substract', 1);
+        }
+        
+    }
+
+    function refresh_cart(item_id, method, quantity) {        
+        console.log(item_id, method, quantity);        
+        //return false;
+
+        $.ajax({
+            type: 'post',
+            url: '/refresh-cart',
+            data: {
+                "item_id": item_id,
+                "method": method,
+                "quantity": quantity
+            },  
+
+            success: function (data) {
+                if (data.is_error) {
+                    alert(data.error_message);
+                } else {
+
+                    if(data.number_of_items_in_cart > 0) {
+
+                        result = "";
+                        result += "";
+
+                        for(let i=0; i<data.carts.length; i++) {
+                            let item_id = data.carts[i]['item_id'];
+                            let product_name = data.carts[i]['product_name'];
+                            let product_price = data.carts[i]['product_price'];
+                            let product_image = data.carts[i]['product_image'];
+                            let product_quantity = data.carts[i]['product_quantity'];
+
+                            result += '<div class="col-lg-8">';
+                            result += '    <div class="pt-5">';                                
+                            
+                            //result += '        <div class="row mb-4 d-flex justify-content-between align-items-center">';
+                            result += '        <div class="row mb-4 d-flex justify-content-between align-items-center" id="' + item_id + '">'
+
+                            result += '            <div class="col-md-2 col-lg-2 col-xl-2">';
+                            result += '            <img';
+                            result += '                src=' + product_image;
+                            result += '                width="200" height="200"';
+                            result += '                class="img-fluid rounded-3" alt="Cotton T-shirt">';
+                            result += '            </div>';
+                            result += '            <div class="col-md-3 col-lg-3 col-xl-">';
+                            result += '                <h6 class="text-muted">{{cart.product.category.category_name}}</h6>';
+                            result += '                <h6 class="text-black mb-0">' + product_name +'</h6>';
+                            result += '            </div>';
+                            result += '            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
+
+                            result += '            <button class="btn btn-link px-2" onclick="substractQTY(this.parentNode.querySelector(\'input[type=number]\'))">';
+                            result += '                <i class="fas fa-minus"></i>';
+                            result += '            </button>';
+                                
+                            result += '            <input id="form1" min="0" name="quantity" value="' + product_quantity + '" type="number" class="form-control form-control-sm" style="width: 50px;"/>';
+                                
+                            result += '            <button class="btn btn-link px-2" onclick="addQTY(this.parentNode.querySelector(\'input[type=number]\'))">';
+                            result += '                <i class="fas fa-plus"></i>';
+                            result += '            </button>';
+
+                            result += '            </div>';
+                                        
+                            result += '            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">';
+                            result += '                <p class="mb-0">' + product_price + ' THB</p>';
+                            result += '            </div>';
+
+                            result += '            <div class="col-md-1 col-lg-1 col-xl-1 text-end">';
+                            result += '                <button class="btn mt-auto text-danger" onclick="delete_item(\'' + item_id + '\')"><i class="bi bi-trash"></i></button>';
+                            result += '            </div>';
+
+                            result += '        </div>';
+                            result += '        <hr>';
+                            result += '    </div>';
+                            result += '</div>'
+
+                        }
+
+                        document.getElementById('cart-container').innerHTML = result;
+                    
+                        document.getElementById('total').innerHTML = "<span>ยอดรวม</span><span>" + data.total + " THB";
+                        document.getElementById('shipping_cost').innerHTML = "<span>ค่าจัดส่ง</span><span>" + data.shipping_cost + " THB";
+                        document.getElementById('grand_total').innerHTML = "<span><b>ยอดรวมทั้งหมด</b></span><span><b>" + data.grand_total + " THB</b>";
+                        
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-danger text-white ms-1 rounded-pill");                        
+                        document.getElementById("add_to_cart_item_count").innerHTML = data.number_of_items_in_cart;
+                    } else {
+
+                        result = "";
+                        result += "";
+                        result += '<div class="col-lg-8">';
+                        result += '    <div class="pt-5">';
+                        result += '<p>ไม่มีสินค้าในตะกร้า</p>';
+                        result += '    </div>';
+                        result += '</div>'
+                        
+                        document.getElementById('cart-container').innerHTML = result;
+                        document.getElementById('total').innerHTML = "<span>ยอดรวม</span><span>" + data.total + " THB";
+                        document.getElementById('shipping_cost').innerHTML = "<span>ค่าจัดส่ง</span><span>" + data.shipping_cost + " THB";
+                        document.getElementById('grand_total').innerHTML = "<span><b>ยอดรวมทั้งหมด</b></span><span><b>" + data.grand_total + " THB</b>";
+
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-dark text-white ms-1 rounded-pill");
+                        document.getElementById("add_to_cart_item_count").innerHTML = "0";
+                    }                      
+
+                }
+            }
+        })  
+    }
+
+    function delete_item(item_id) {
+        
+        console.log(item_id);
+
+        $.ajax({
+            type: 'post',
+            url: '/delete-item-from-cart',
+            data: {"item_id": item_id},            
+            success: function (data) {
+                
+                if (data.is_error) {
+                    alert(data.error_message);
+                } else {
+                    if(data.number_of_items_in_cart > 0) {
+
+                        result = "";
+                        result += "";
+
+                        for(let i=0; i<data.carts.length; i++) {
+                            let item_id = data.carts[i]['item_id'];
+                            let product_name = data.carts[i]['product_name'];
+                            let product_price = data.carts[i]['product_price'];
+                            let product_image = data.carts[i]['product_image'];
+
+                            result += '<div class="col-lg-8">';
+                            result += '    <div class="pt-5">';                                
+                            
+                            //result += '        <div class="row mb-4 d-flex justify-content-between align-items-center">';
+                            result += '        <div class="row mb-4 d-flex justify-content-between align-items-center" id="' + item_id + '">'
+
+                            result += '            <div class="col-md-2 col-lg-2 col-xl-2">';
+                            result += '            <img';
+                            result += '                src=' + product_image;
+                            result += '                width="200" height="200"';
+                            result += '                class="img-fluid rounded-3" alt="Cotton T-shirt">';
+                            result += '            </div>';
+                            result += '            <div class="col-md-3 col-lg-3 col-xl-">';
+                            result += '                <h6 class="text-muted">{{cart.product.category.category_name}}</h6>';
+                            result += '                <h6 class="text-black mb-0">' + product_name +'</h6>';
+                            result += '            </div>';
+                            result += '            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">';
+
+                            result += '            <button class="btn btn-link px-2" onclick="substractQTY(this.parentNode.querySelector(\'input[type=number]\'))">';
+                            result += '                <i class="fas fa-minus"></i>';
+                            result += '            </button>';
+                                
+                            result += '            <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control form-control-sm" style="width: 50px;"/>';
+                                
+                            result += '            <button class="btn btn-link px-2" onclick="addQTY(this.parentNode.querySelector(\'input[type=number]\'))">';
+                            result += '                <i class="fas fa-plus"></i>';
+                            result += '            </button>';
+
+                            result += '            </div>';
+                                        
+                            result += '            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">';
+                            result += '                <p class="mb-0">' + product_price + ' THB</p>';
+                            result += '            </div>';
+
+                            result += '            <div class="col-md-1 col-lg-1 col-xl-1 text-end">';
+                            result += '                <button class="btn mt-auto text-danger" onclick="delete_item(\'' + item_id + '\')"><i class="bi bi-trash"></i></button>';
+                            result += '            </div>';
+
+                            result += '        </div>';
+                            result += '        <hr>';
+                            result += '    </div>';
+                            result += '</div>'
+
+                        }
+
+                        document.getElementById('cart-container').innerHTML = result;
+                    
+                        document.getElementById('total').innerHTML = "<span>ยอดรวม</span><span>" + data.total + " THB";
+                        document.getElementById('shipping_cost').innerHTML = "<span>ค่าจัดส่ง</span><span>" + data.shipping_cost + " THB";
+                        document.getElementById('grand_total').innerHTML = "<span><b>ยอดรวมทั้งหมด</b></span><span><b>" + data.grand_total + " THB</b>";
+                        
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-danger text-white ms-1 rounded-pill");                        
+                        document.getElementById("add_to_cart_item_count").innerHTML = data.number_of_items_in_cart;
+                    } else {
+
+                        result = "";
+                        result += "";
+                        result += '<div class="col-lg-8">';
+                        result += '    <div class="pt-5">';
+                        result += '<p>ไม่มีสินค้าในตะกร้า</p>';
+                        result += '    </div>';
+                        result += '</div>'
+                        
+                        document.getElementById('cart-container').innerHTML = result;
+                        document.getElementById('total').innerHTML = "<span>ยอดรวม</span><span>" + data.total + " THB";
+                        document.getElementById('shipping_cost').innerHTML = "<span>ค่าจัดส่ง</span><span>" + data.shipping_cost + " THB";
+                        document.getElementById('grand_total').innerHTML = "<span><b>ยอดรวมทั้งหมด</b></span><span><b>" + data.grand_total + " THB</b>";
+
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-dark text-white ms-1 rounded-pill");
+                        document.getElementById("add_to_cart_item_count").innerHTML = "0";
+                    }                    
+                }
+            }
+        })
+
+    }     
+           
+</script>      
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="py-4">
+    <div class="container px-4 px-lg-5">
+        <br><br>
+        <h3><i>รองเท้าทั้งหมด</i></h3>
+        <hr>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for product in products %}
+            
+            {% if product.category.category_name == 'รองเท้า' %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    {% if product.is_sale %}
+                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    {% endif %}
+                    <!-- Product image-->
+                    <a href="{% url 'product-detail' product.id %}">
+                        <img class="card-img-top" src={{product.image.url}} alt="..." />
+                    </a>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{product.product_name}}</h5>
+                            <!-- Product price-->
+                            {{product.price}} THB
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" onclick="add_to_cart('{{product.id}}')">
+                            <i class="bi-cart-fill me-1"></i>
+                            add to cart
+                        </a></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+            
+</section>
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    function add_to_cart(pid) {        
+        
+        console.log(pid);
+
+        $.ajax({
+            type: 'post',
+            url: '/add-to-cart',
+            data: {"product_id": pid},            
+            success: function (data) {
+                if (data.is_error) {
+                    alert(data.error_message);
+                } else {
+                    if(data.number_of_items_in_cart > 0) {                                                
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-danger text-white ms-1 rounded-pill");                        
+                        document.getElementById("add_to_cart_item_count").innerHTML = data.number_of_items_in_cart;
+                    } else {                        
+                        document.getElementById('add_to_cart_item_count').setAttribute("class", "badge bg-dark text-white ms-1 rounded-pill");
+                        document.getElementById("add_to_cart_item_count").innerHTML = "0";
+                    }
+                    
+                }                
+            }                                       
+        })
+    }     
+           
+</script>      
+{% endblock %}
+
+
+{% endblock %}
