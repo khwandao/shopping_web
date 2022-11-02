@@ -130,7 +130,7 @@ USE_TZ = True
 
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'shopping_web/static')
-# STATICFILES_DIRS = [BASE_DIR / "/static/"]
+STATICFILES_DIRS = [BASE_DIR / "/static/"]
 # ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
