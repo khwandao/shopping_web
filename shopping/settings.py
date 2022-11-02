@@ -61,7 +61,8 @@ ROOT_URLCONF = 'shopping.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        # 'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': []
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,14 +81,14 @@ WSGI_APPLICATION = 'shopping.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER':'',
-        'PASSWORD':'',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': '',
+#         'USER':'',
+#         'PASSWORD':'',
+#     }
+# }
 
 DATABASES = {'default': dj_database_url.config(default='postgres://xyqdzqkkdzdgjv:07a7ca38290290b12652458a0b1cd723936fc8018959067f431f3e0095ddcf47@ec2-52-23-131-232.compute-1.amazonaws.com:5432/d489qffkrj4ddu')}
 
@@ -127,12 +128,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-# STATIC_URL = '/static/'
+
 # STATIC_ROOT = os.path.join(BASE_DIR, 'shopping_web/static')
 # STATICFILES_DIRS = [BASE_DIR / "/static/"]
 # ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = '/static/'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
