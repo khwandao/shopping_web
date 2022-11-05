@@ -81,14 +81,7 @@ WSGI_APPLICATION = 'shopping.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': '',
-#         'USER':'',
-#         'PASSWORD':'',
-#     }
-# }
+
 
 DATABASES = {'default': dj_database_url.config(default='postgres://xyqdzqkkdzdgjv:07a7ca38290290b12652458a0b1cd723936fc8018959067f431f3e0095ddcf47@ec2-52-23-131-232.compute-1.amazonaws.com:5432/d489qffkrj4ddu')}
 
