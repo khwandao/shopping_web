@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<br><br><br><br>
 <div class="d-flex justify-content-center  p-5">
     <!-- Section: Design Block -->
     <section class="text-center pt-3">
@@ -13,24 +14,21 @@
         
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="fw-bold mb-5">Sign up now</h2>
+                        <h1 class="fw-bold mb-5">Sign up</h1>
 
                         <p class="text-danger">{{errorMessage}}</p>
 
                         <form action="{% url 'register' %}" method="POST">
                             {% csrf_token %}
-                            <!-- 2 column grid layout with text inputs for the first and last names -->
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <input type="text" id="firstName" class="form-control" placeholder="First Name" name="firstName" value="{{firstName}}"/>
-                                    <!-- <label class="form-label" for="form3Example1">First name</label> -->
                                 </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <input type="text" id="lastName" class="form-control" placeholder="Last name" name="lastName" value="{{lastName}}"/>
-                                    <!-- <label class="form-label" for="form3Example2">Last name</label> -->
                                 </div>
                                 </div>
                             </div>
@@ -38,18 +36,15 @@
                             <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input type="email" id="email" class="form-control" placeholder="Email address" name="email" value="{{email}}"/>
-                                <!-- <label class="form-label" for="form3Example3">Email address</label> -->
                             </div>
                 
                             <!-- Password input -->
                             <div class="form-outline mb-4">
                                 <input type="password" id="password" class="form-control" placeholder="Password" name="password" value="{{password}}"/>
-                                <!-- <label class="form-label " for="form3Example4">Password</label> -->
                             </div>
 
                             <div class="form-outline mb-4">
                                 <input type="password" id="rePassword" class="form-control" placeholder="Re-password" name="rePassword" value="{{rePassword}}" />
-                                <!-- <label class="form-label " for="form3Example4">Password</label> -->
                             </div>
                 
                             <!-- Checkbox -->
@@ -61,42 +56,18 @@
                             </div>
                 
                             <!-- Submit button -->
-                            
-
                             <div class="row mb-4">
                                 <button type="submit" class="btn btn-primary btn-block mb-4">
                                     Sign up
                                 </button>
 
                             </div>
-            
-                        <!-- Register buttons -->
-                        <!-- <div class="text-center">
-                            <p>or sign up with:</p>
-                            <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                            </button>
-            
-                            <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-google"></i>
-                            </button>
-            
-                            <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-twitter"></i>
-                            </button>
-            
-                            <button type="button" class="btn btn-link btn-floating mx-1">
-                            <i class="fab fa-github"></i>
-                            </button>
-                        </div> -->
                         </form>
                     </div>
                 </div>
             </div>
         </div>
   </section>
-  <!-- Section: Design Block -->
-
 </div>
 
 {% endblock %}

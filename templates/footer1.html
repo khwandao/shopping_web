@@ -8,9 +8,9 @@
 
                 {% for category in categories %}
                 {% if category.category_name == 'รองเท้า'%}
-                <p><a class="text-white" style="text-decoration: none;" href="{% url 'shoes' %}">{{category.category_name}}</a></p>
+                <p><a class="text-white" style="text-decoration: none;" href="{% url 'shoes' %}">Shoes</a></p>
                 {% else %}
-                <p><a class="text-white" style="text-decoration: none;" href="{% url 'bags' %}">{{category.category_name}}</a></p>
+                <p><a class="text-white" style="text-decoration: none;" href="{% url 'bags' %}">Bags</a></p>
                 {% endif %}
                 {% endfor %}
                 

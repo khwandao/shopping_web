@@ -9,8 +9,6 @@
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <!-- <li><a class="dropdown-item" href="#!">All Products</a></li>
-                      <li><hr class="dropdown-divider" /></li> -->
                       {% for category in categories %}
                       {% if category.category_name == 'รองเท้า'%}
                       <li><a class="dropdown-item" href="{% url 'shoes' %}">{{category.category_name}}</a></li>
@@ -18,7 +16,6 @@
                       <li><a class="dropdown-item" href="{% url 'bags' %}">{{category.category_name}}</a></li>
                       {% endif %}
                       {% endfor %}
-                      <!-- <li><a class="dropdown-item" href="{% url 'bags' %}">Bags</a></li> -->
                   </ul>
               </li>
               <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
@@ -51,15 +48,10 @@
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        {% comment %}
-        <a href="{% url 'login' %}" > <i class="bi bi-person" style="font-size:30px;color:rgb(36, 33, 33);"></i></a>
-        {% endcomment %}
-
-        
         {% if user.is_authenticated %}
-        <p class="pt-3">&nbsp;&nbsp;<a href="{% url 'logout' %}">ออกจากระบบ</a></p>
+        <p class="pt-3">&nbsp;&nbsp;<a href="{% url 'logout' %}">Logout</a></p>
         {% else %}
-        <p class="pt-3">&nbsp;&nbsp;<a href="{% url 'login' %}">เข้าสู่ระบบ</a></p>
+        <p class="pt-3">&nbsp;&nbsp;<a href="{% url 'login' %}">Login</a></p>
         {% endif %}
 
         
